@@ -67,7 +67,7 @@ H5PEditor.widgets.arMarkerGenerator = H5PEditor.ARMarkerGenerator = (function ($
     container.appendChild(buttonsWrapper);
 
     // Errors
-    this.$errors = this.$container.find('.h5p-errors');//.insertAfter(buttonsWrapper);
+    this.$errors = this.$container.find('.h5p-errors');
 
     // Follow original image
     H5PEditor.followField(this.parent, this.field.arMarkerGenerator.referencePath, function (event) {
