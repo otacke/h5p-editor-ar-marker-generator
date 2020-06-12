@@ -77,6 +77,8 @@ H5PEditor.widgets.arMarkerGenerator = H5PEditor.ARMarkerGenerator = (function ($
         delete that.params;
         that.setValue(that.field);
 
+        that.trigger('removedMarkerPattern');
+
         return;
       }
 
@@ -214,6 +216,8 @@ H5PEditor.widgets.arMarkerGenerator = H5PEditor.ARMarkerGenerator = (function ($
 
       // Make it possible for other widgets to process the result
       this.trigger('fileUploaded', result.data);
+
+      this.trigger('addedMarkerPattern', this.markerImage);
 
       this.setValue(this.field, this.params);
 
