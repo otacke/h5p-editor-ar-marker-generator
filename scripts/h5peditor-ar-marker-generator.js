@@ -288,6 +288,12 @@ H5PEditor.widgets.arMarkerGenerator = H5PEditor.ARMarkerGenerator = (function ($
 
   /**
    * Encode image to ARToolkit marker pattern.
+   *
+   * Adopted from AR.js Studio Backend
+   * https://github.com/AR-js-org/studio-backend
+   * The MIT License
+   * Copyright (c) 2019 Nicolò Carpignoli, nicolocarpignoli@gmail.com
+   *
    * @param {Image} image Image to convert.
    * @return {string} ARToolkit marker pattern.
    */
@@ -338,6 +344,12 @@ H5PEditor.widgets.arMarkerGenerator = H5PEditor.ARMarkerGenerator = (function ($
 
   /**
    * Build marker image.
+   *
+   * Adopted from AR.js Studio Backend
+   * https://github.com/AR-js-org/studio-backend
+   * The MIT License
+   * Copyright (c) 2019 Nicolò Carpignoli, nicolocarpignoli@gmail.com
+   *
    * @param {Image} Original image.
    * @return {Image} Marker image as dataURI.
    */
