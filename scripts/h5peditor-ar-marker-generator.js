@@ -31,6 +31,9 @@ H5PEditor.widgets.arMarkerGenerator = H5PEditor.ARMarkerGenerator = (function ($
     this.field.arMarkerGenerator = this.field.arMarkerGenerator || {};
     this.field.arMarkerGenerator.referencePath = this.field.arMarkerGenerator.referencePath || '';
 
+    // Downloadable marker image size in pixels
+    this.field.arMarkerGenerator.markerImageSize = this.field.arMarkerGenerator.markerImageSize || 1000;
+
     // Find image reference
     this.imageField = H5PEditor.findField(this.field.arMarkerGenerator.referencePath, this.parent);
     if (!this.imageField) {
@@ -263,7 +266,25 @@ H5PEditor.widgets.arMarkerGenerator = H5PEditor.ARMarkerGenerator = (function ($
     dummy.href = this.markerImage;
     dummy.download = name;
     document.body.appendChild(dummy);
-    dummy.click();
+
+    // Special treatment for IE11 required
+    if (window.navigator.userAgent.indexOf('Trident/') !== -1) {
+      const canvas = document.createElement('canvas');
+      canvas.height = this.field.arMarkerGenerator.markerImageSize;
+      canvas.width = this.field.arMarkerGenerator.markerImageSize;
+      const context = canvas.getContext('2d');
+      const image = new Image();
+      image.onload = function () {
+        context.drawImage(image, 0, 0);
+        const blob = canvas.msToBlob();
+        navigator.msSaveBlob(blob, name);
+      };
+      image.src = this.markerImage;
+    }
+    else {
+      dummy.click();
+    }
+
     document.body.removeChild(dummy);
   };
 
@@ -326,7 +347,7 @@ H5PEditor.widgets.arMarkerGenerator = H5PEditor.ARMarkerGenerator = (function ($
             const offset = (y * imageData.width * 4) + (x * 4) + channelOffset;
             const value = imageData.data[offset];
 
-            patternFileString += String(value).padStart(3);
+            patternFileString += ('   ' + String(value)).slice(-3);
           }
           patternFileString += '\n';
         }
@@ -343,7 +364,6 @@ H5PEditor.widgets.arMarkerGenerator = H5PEditor.ARMarkerGenerator = (function ($
    */
   ARMarkerGenerator.prototype.buildMarkerImage = function (image) {
     const patternRatio = 0.5;
-    const size = 1000;
 
     const whiteMargin = 0.1;
     const blackMargin = (1 - 2 * whiteMargin) * ((1 - patternRatio) / 2);
@@ -352,8 +372,8 @@ H5PEditor.widgets.arMarkerGenerator = H5PEditor.ARMarkerGenerator = (function ($
 
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d');
-    canvas.height = size;
-    canvas.width = size;
+    canvas.height = this.field.arMarkerGenerator.markerImageSize;
+    canvas.width = this.field.arMarkerGenerator.markerImageSize;
 
     // White background
     context.fillStyle = '#ffffff';
