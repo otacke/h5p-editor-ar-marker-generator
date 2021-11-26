@@ -247,7 +247,7 @@ H5PEditor.widgets.arMarkerGenerator = H5PEditor.ARMarkerGenerator = (function ($
     if (this.imageField && this.imageField.copyright && this.imageField.copyright.title) {
       name = this.imageField.copyright.title
         .trim()
-        .replace(/[/\\\[\]?%*:|"<>]/g, '')
+        .replace(/[/\\[\]?%*:|"<>]/g, '')
         .replace(/[ ]/g, '-');
       name += '.png';
     }
