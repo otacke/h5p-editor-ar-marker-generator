@@ -98,7 +98,18 @@ H5PEditor.widgets.arMarkerGenerator = H5PEditor.ARMarkerGenerator = (function ($
 
         // Upload marker pattern file to server
         that.on('uploadComplete', that.handleUploadComplete.bind(that));
-        that.upload(new Blob([that.markerPattern], {type: 'text/plain'}), 'placeholder.txt');
+
+        if (
+          !that.params ||
+          typeof that.params.path === 'string' && that.params.path.substr(-4) === '#tmp'
+        ) {
+          // New image
+          that.upload(new Blob([that.markerPattern], {type: 'text/plain'}), 'placeholder.txt');
+        }
+        else {
+          // Image was already uploaded, skip uploading
+          that.handleUploadComplete({ data: { data: that.params } });
+        }
 
         that.originalImage.onload = null;
       };
