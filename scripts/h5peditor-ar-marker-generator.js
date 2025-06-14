@@ -335,11 +335,19 @@ H5PEditor.widgets.arMarkerGenerator = H5PEditor.ARMarkerGenerator = (function ($
     canvas.width = 16;
     canvas.height = 16;
 
+    // Fill with white background first to handle transparency
+    context.fillStyle = '#ffffff';
+    context.fillRect(0, 0, canvas.width, canvas.height);
+
     let patternFileString = '';
     for (let orientation = 0; orientation > -2*Math.PI; orientation -= Math.PI/2) {
       // draw on canvas - honor orientation
       context.save();
       context.clearRect(0, 0, canvas.width, canvas.height);
+      // Fill with white background after clear
+      context.fillStyle = '#ffffff';
+      context.fillRect(0, 0, canvas.width, canvas.height);
+
       context.translate(canvas.width / 2, canvas.height / 2);
       context.rotate(orientation);
       context.drawImage(image, -canvas.width / 2, -canvas.height / 2, canvas.width, canvas.height);
